@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ProNounPro</title>
+<style>
+        body {
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+        .plus {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+        .plus:before, .plus:after {
+            content: '';
+            position: absolute;
+            background: #000;
+        }
+        .plus:before {
+            width: 10px;
+            height: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .plus:after {
+            width: 50px;
+            height: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .square {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: #000;
+        }
+		form {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+			max-width: 90%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background: #009900;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #007700;
+        }
+		 #output {
+		 font-size: 2rem;
+        }
+		.grey-text {
+		color: lightgrey;
+		}
+
+    </style>
+	
+    <script>
+	
+	
+	    function sanitizeInput(input) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(input));
+            return div.innerHTML;
+        }
+	
+        function getQueryParams() {
+		let queryParams = new URLSearchParams(window.location.search);
+            let name = sanitizeInput(queryParams.get('name'));
+            let thirdPersonSubject = sanitizeInput(queryParams.get('thirdPersonSubject'));
+            let thirdPersonObject = sanitizeInput(queryParams.get('thirdPersonObject'));
+            let thirdPersonPossessiveAdjective = sanitizeInput(queryParams.get('thirdPersonPossessiveAdjective'));
+            let thirdPersonPossessive = sanitizeInput(queryParams.get('thirdPersonPossessive'));
+            let thirdPersonReflexive = sanitizeInput(queryParams.get('thirdPersonReflexive'));
+            if (name && thirdPersonSubject && thirdPersonObject && thirdPersonPossessiveAdjective && thirdPersonPossessive && thirdPersonReflexive) {
+		let paragraphs = [
+         	` ${thirdPersonPossessiveAdjective} name is ${name} and <b>${thirdPersonSubject}</b> looks after <b>${thirdPersonReflexive}</b> by keeping <b>${thirdPersonPossessiveAdjective}</b> laptop by <b>${thirdPersonPossessiveAdjective}</b> side, beacuse its <b>${thirdPersonPossessive}</b>.`,
+			`Pretend I am not here and you need to ask a friend about me...<br> Have you seen ${name}?<b> ${thirdPersonSubject}</b> has my laptop!`,
+         	`There is a fire alarm and I am not at my desk, you need to ask a friend where I am.<br> Have you seen ${name}? have you seen <b>${thirdPersonObject}</b>? <b>${thirdPersonSubject}</b> is at lunch right?`,
+             ];
+        let randomParagraph = paragraphs[Math.floor(Math.random() * paragraphs.length)];
+		
+		
+
+
+
+            document.getElementById('output').innerHTML = randomParagraph;
+            document.getElementById('name').value = name;
+            document.getElementById('thirdPersonSubject').value = thirdPersonSubject;
+            document.getElementById('thirdPersonObject').value = thirdPersonObject;
+            document.getElementById('thirdPersonPossessiveAdjective').value = thirdPersonPossessiveAdjective;
+            document.getElementById('thirdPersonPossessive').value = thirdPersonPossessive;
+            document.getElementById('thirdPersonReflexive').value = thirdPersonReflexive;
+                
+				
+						if (randomParagraph) {
+    document.getElementById('output').innerHTML = randomParagraph;
+} else {
+    // If randomParagraph is null, hide the output element
+    document.getElementById('output').style.display = 'none';
+}
+
+
+                // Change form text based on the name
+                document.getElementById('form-text').innerText = `Hello ${name}, please update your information below:`;
+				
+				 // Display the full URL
+                document.getElementById('url').innerText = `Full URL: ${window.location.href}`;
+				
+				// Display the URL without query parameters
+                document.getElementById('base-url').innerText = `URL without query parameters: ${window.location.origin}${window.location.pathname}`;
+				
+				document.getElementById('output2').innerHTML = `Hello nice to meet you! <br> My name is ${name} and my pronouns are <b> ${thirdPersonSubject}, ${thirdPersonObject}, ${thirdPersonPossessiveAdjective}, ${thirdPersonPossessive} and ${thirdPersonReflexive}</b>. <br> <br> 
+				<b> ${thirdPersonSubject} </b> <span class="grey-text"> 3rd person-subject: They, she, he </span> <br>
+				<b> ${thirdPersonObject} </b> <span class="grey-text"> 3rd person-object: Them, her, him, </span> <br>
+		 		<b> ${thirdPersonPossessiveAdjective} </b> <span class="grey-text"> 3rd person-adjective: Their, her, his, </span> <br>
+		 		<b> ${thirdPersonPossessive} </b> <span class="grey-text">  3rd person-possessive: Theirs, hers, his and </span> <br>
+		 		<b> ${thirdPersonReflexive} </b> <span class="grey-text">  3rd person-reflexive: Themeselves, herself, himself. </span>`
+            }
+        }
+    </script>
+</head>
+<body onload="getQueryParams()">
+    <div class="container">
+  <h1>ProNounPro</h1>
+    <div class="plus">
+        <div class="square"></div>
+    </div>
+	
+	
+    <p id="output"></p>
+
+
+	
+        <form action="" method="get">
+            <p id="form-text">Please enter your information below:</p>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="thirdPersonSubject">3rd-person-subject: They, she, he</label>
+            <input type="text" id="thirdPersonSubject" name="thirdPersonSubject">
+            <label for="thirdPersonObject">3rd-person-object: Them, her, him</label>
+            <input type="text" id="thirdPersonObject" name="thirdPersonObject">
+            <label for="thirdPersonPossessiveAdjective">3rd-person-possessive-adjective: their, her, his</label>
+            <input type="text" id="thirdPersonPossessiveAdjective" name="thirdPersonPossessiveAdjective">
+            <label for="thirdPersonPossessive">3rd-person-possessive: Theirs, hers, his</label>
+            <input type="text" id="thirdPersonPossessive" name="thirdPersonPossessive">
+            <label for="thirdPersonReflexive">3rd-person-reflexive: Themeselves, herself, himself</label>
+            <input type="text" id="thirdPersonReflexive" name="thirdPersonReflexive">
+            <input type="submit" value="Submit">
+        </form>
+		
+		
+	
+    <p>This data is saved in the URL, so you can share the URL with people who might want to practice your pronouns. <br> 
+	But remember not to share the full URL unless you are happy for people to see this information.</p>
+	
+	    <p id="url"></p>
+	<p id="base-url"></p>
+	
+   <p id="output2" ></p>
+	
+</body>
+</html>
